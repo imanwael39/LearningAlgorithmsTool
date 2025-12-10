@@ -1,0 +1,259 @@
+You are an expert software architect and senior AI engineer.
+I want you to design and generate a complete, production-quality Search Algorithms Visualization GUI Project exactly based on the following academic specifications:
+
+
+---
+
+🎯 Project Title
+
+"Interactive Search Algorithms Visualization & Comparison Tool"
+
+
+---
+
+📌 Core Requirements (Must Follow Strictly)
+
+1. GUI Application
+
+Build a clean, interactive GUI application.
+
+Allow users to:
+
+Drag & Drop a problem file
+
+OR construct a problem manually (add nodes, blocks, obstacles, edges…)
+
+Choose a search algorithm from a list
+
+Start / Pause / Reset execution
+
+View real-time visualization of search steps
+
+
+
+2. Supported Algorithms
+
+Include correct implementations of:
+
+BFS
+
+DFS
+
+UCS
+
+Greedy Best-First Search
+
+A*
+
+
+Additionally create modular support for optional algorithms:
+
+Hill Climbing
+
+Beam Search
+
+IDA*
+
+
+3. Supported Problem Types
+
+Implement at least two:
+
+Grid-based pathfinding
+
+Maze solving
+
+Graph (nodes & edges) search
+
+8-Puzzle
+
+Custom problem
+
+
+4. Visualization Requirements
+
+The visualization must show:
+
+Step-by-step exploration
+
+Highlighted visited nodes
+
+Frontier (open list)
+
+Cost values g, h, f (for informed algorithms)
+
+Final optimal path
+
+
+Step animation should be smooth and interactive.
+
+5. Performance Analysis
+
+After each run, automatically display:
+
+Execution time
+
+Number of visited nodes
+
+Path cost
+
+Memory usage (approximation)
+
+Comparison tables or charts between algorithms
+
+
+
+---
+
+📚 Deliverables to Generate
+
+You must produce:
+
+A) System Architecture
+
+High-level architecture
+
+Class diagrams
+
+Data flow
+
+State management design
+
+Visualization engine design
+
+
+B) Complete Source Code
+
+A full working project including:
+
+Frontend GUI
+
+All algorithms
+
+Visualization logic
+
+Performance metrics
+
+Drag & Drop feature
+
+Clean modular structure
+
+Comments and documentation
+
+
+C) Proposal Document (PDF outline)
+
+Contains:
+
+Problem definition
+
+System design
+
+Algorithms overview
+
+GUI mockups
+
+Example problems
+
+
+D) Research-Oriented Report
+
+Related work
+
+Evaluation metrics
+
+Algorithm comparison
+
+Screenshots of results
+
+Future improvements
+
+
+E) Presentation Slides (Outline)
+
+For a professional academic presentation.
+
+
+---
+
+🛠 Technical Stack
+
+Use a clean, modern, scalable technology such as:
+
+React (preferred)
+
+Or Python (PyQt / Tkinter)
+
+Or JavaFX
+
+
+If React is selected, include:
+
+Components for grid / graph rendering
+
+Canvas-based visualization
+
+State management (Context API / Redux)
+
+Hooks for animation and controls
+
+File drag & drop handler
+
+
+
+---
+
+🎨 Expectations for Code Quality
+
+Clear folder structure
+
+Reusable components
+
+Clean algorithm implementations
+
+Separation of concerns
+
+Fully commented code
+
+Extensible design (easy to add more algorithms)
+
+
+
+---
+
+🧠 What I want you to output
+
+Produce the following in order:
+
+1. Full system architecture description
+
+
+2. Complete folder structure
+
+
+3. Detailed explanation of the visualization engine
+
+
+4. All search algorithms implemented
+
+
+5. Full React application code (or chosen tech)
+
+
+6. Mockups for the GUI
+
+
+7. Performance metrics module
+
+
+8. Proposal document (ready to export)
+
+
+9. Research report (ready to export)
+
+
+10. Presentation slides outline
+
+
+
+Make everything consistent, professional, and 100% aligned with the academic requirements above.
