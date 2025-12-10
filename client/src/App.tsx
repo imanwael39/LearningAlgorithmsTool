@@ -102,7 +102,7 @@ function Header() {
         <ThemeToggle />
         
         <a
-          href="https://github.com"
+          href="https://github.com/imanwael39"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden sm:flex"
