@@ -5,25 +5,29 @@ An interactive, educational web application for visualizing and comparing search
 ## Features
 
 ### Core Visualization
+
 - **Interactive Canvas**: Drag-and-drop grid/graph problem construction
 - **Real-time Animation**: Step-by-step algorithm execution with play/pause/speed controls
 - **Visual Highlighting**: Color-coded display of explored nodes, frontier, current node, and optimal path
 - **Problem Types**: Support for grid-based pathfinding and graph search problems
 
 ### Algorithms
+
 - **BFS** (Breadth-First Search) - Complete and optimal for unit costs
 - **DFS** (Depth-First Search) - Memory efficient, not complete/optimal
 - **UCS** (Uniform Cost Search) - Optimal path finder for weighted graphs
 - **Greedy Best-First** - Heuristic-guided exploration
-- **A*** - Optimal informed search with admissible heuristics
+- **A\*** - Optimal informed search with admissible heuristics
 
 ### Analysis & Comparison
+
 - **Performance Metrics**: Execution time, nodes visited, path cost, memory usage
 - **Algorithm Costs**: Real-time display of g(n), h(n), and f(n) values during execution
 - **Side-by-Side Comparison**: Visual charts comparing algorithm performance
 - **Problem Management**: Save and load custom problem configurations
 
 ### User Interface
+
 - **Algorithm Selection Panel**: Choose algorithms to run
 - **Tool Palette**: Select, add obstacles, set start/goal positions
 - **Playback Controls**: Play, pause, step, seek, speed adjustment
@@ -36,6 +40,7 @@ An interactive, educational web application for visualizing and comparing search
 ### Installation
 
 1. **Clone or Open in Replit**
+
    ```bash
    npm install
    ```
@@ -44,7 +49,7 @@ An interactive, educational web application for visualizing and comparing search
    ```bash
    npm run dev
    ```
-   The application will open on `http://localhost:5000`
+   The application will open on `http://localhost:3000`
 
 ### Quick Start Guide
 
@@ -53,7 +58,7 @@ An interactive, educational web application for visualizing and comparing search
    - Use the **Tool Palette** to add obstacles, set start/goal positions
    - Drag on grid cells to paint obstacles
    - Click cells to place start (S) and goal (G) positions
-3. **Choose Algorithm**: Select from BFS, DFS, UCS, Greedy, or A*
+3. **Choose Algorithm**: Select from BFS, DFS, UCS, Greedy, or A\*
 4. **Run the Algorithm**: Click "Run Algorithm" to execute
 5. **Watch Animation**: Use playback controls to step through execution
 6. **View Metrics**: Check performance stats on the right panel
@@ -62,24 +67,27 @@ An interactive, educational web application for visualizing and comparing search
 ## How Algorithms Work
 
 ### Uninformed Search
+
 - **BFS**: Explores all nodes at current depth before moving deeper. Guaranteed to find shortest path.
 - **DFS**: Explores as deep as possible before backtracking. Memory efficient but may find longer paths.
 - **UCS**: Expands nodes with lowest cost first. Optimal when costs matter.
 
 ### Informed Search
+
 - **Greedy Best-First**: Uses heuristic estimate h(n) to guide search. Fast but not guaranteed optimal.
-- **A***: Combines actual cost g(n) and heuristic h(n) in f(n) = g(n) + h(n). Optimal with admissible heuristics.
+- **A\***: Combines actual cost g(n) and heuristic h(n) in f(n) = g(n) + h(n). Optimal with admissible heuristics.
 
 ### Cost Display
+
 - **g(n)**: Actual cost from start to current node
 - **h(n)**: Heuristic estimate of cost to goal
-- **f(n)**: Total estimated cost (A* evaluation function)
+- **f(n)**: Total estimated cost (A\* evaluation function)
 
 ## Grid Problem
 
 - **Size**: 15 rows × 20 columns (configurable)
 - **Movement**: 4-directional (up, down, left, right) or 8-directional
-- **Cells**: 
+- **Cells**:
   - Start (green) - Algorithm begins here
   - Goal (red) - Algorithm tries to reach here
   - Obstacles (dark gray) - Cannot be traversed
@@ -95,9 +103,11 @@ An interactive, educational web application for visualizing and comparing search
 ## Controls
 
 ### Algorithm Selector
-- **BFS, DFS, UCS, Greedy, A***: Click to select algorithm
+
+- **BFS, DFS, UCS, Greedy, A\***: Click to select algorithm
 
 ### Tool Palette
+
 - **Add Obstacle**: Paint obstacles on grid cells
 - **Remove Obstacle**: Erase obstacles
 - **Set Start**: Mark starting position (green)
@@ -106,6 +116,7 @@ An interactive, educational web application for visualizing and comparing search
 - **Add Edge**: Connect graph nodes
 
 ### Playback Controls
+
 - **Play**: Start step-by-step animation
 - **Pause**: Pause animation
 - **Reset**: Clear visualization state
@@ -114,6 +125,7 @@ An interactive, educational web application for visualizing and comparing search
 - **Timeline**: Click to seek to specific step
 
 ### Problem Controls
+
 - **Randomize**: Auto-generate obstacles or graph
 - **Clear**: Remove all obstacles/edges
 - **Show Costs**: Toggle g/h/f value display
@@ -121,17 +133,20 @@ An interactive, educational web application for visualizing and comparing search
 ## Architecture
 
 ### Frontend
+
 - **React + TypeScript**: Component-based UI with type safety
 - **Tailwind CSS + Shadcn**: Modern design system
 - **React Query**: Data fetching and caching
 - **Recharts**: Performance comparison charts
 
 ### Backend
+
 - **Express.js**: REST API server
 - **In-Memory Storage**: Problem and result caching
 - **Zod Validation**: Request/response type checking
 
 ### Shared
+
 - **Type Definitions**: Shared TypeScript types
 - **Zod Schemas**: Data validation schemas
 - **Algorithm Logic**: Search implementations
@@ -139,6 +154,7 @@ An interactive, educational web application for visualizing and comparing search
 ## Data Structures
 
 ### GridProblem
+
 ```typescript
 {
   type: "grid"
@@ -152,6 +168,7 @@ An interactive, educational web application for visualizing and comparing search
 ```
 
 ### GraphProblem
+
 ```typescript
 {
   type: "graph"
@@ -164,6 +181,7 @@ An interactive, educational web application for visualizing and comparing search
 ```
 
 ### SearchResult
+
 ```typescript
 {
   algorithm: AlgorithmType
@@ -179,22 +197,26 @@ An interactive, educational web application for visualizing and comparing search
 ## Performance
 
 ### Optimization Techniques
+
 - **useMemo**: Cached grid cell lookups and step data
 - **Viewport-based Rendering**: Only renders visible cells
 - **requestAnimationFrame**: Smooth 60fps animation
 - **Cleanup**: Proper animation frame cancellation
 
 ### Memory Usage
+
 - Grid: ~100KB per 15×20 grid
 - Graph: ~50KB per 8 nodes with 12 edges
 - Single run history: ~500KB per algorithm execution
 
 ## Browser Support
+
 - Chrome/Edge 90+
 - Firefox 88+
 - Safari 14+
 
 ## Project Structure
+
 ```
 ├── client/src/
 │   ├── pages/
@@ -223,20 +245,23 @@ An interactive, educational web application for visualizing and comparing search
 ## Learning Resources
 
 ### Understanding Search Algorithms
+
 1. Start with **BFS** to understand breadth-first exploration
 2. Compare **BFS** vs **DFS** to see depth-first differences
 3. Try **UCS** to see cost-based ordering
-4. Experiment with **A*** to understand heuristic guidance
+4. Experiment with **A\*** to understand heuristic guidance
 5. Use the **comparison chart** to analyze performance trade-offs
 
 ### Tips for Exploration
+
 - Create challenging mazes to stress-test algorithms
 - Compare algorithms on the same problem to see differences
-- Adjust heuristics (grid distance) to affect A* behavior
+- Adjust heuristics (grid distance) to affect A\* behavior
 - Use cost weights to see how algorithms handle varying edge costs
 - Toggle cost display to understand algorithm decision-making
 
 ## Keyboard Shortcuts
+
 - `Enter`: Run algorithm
 - `Space`: Play/Pause
 - `R`: Reset visualization
@@ -244,20 +269,24 @@ An interactive, educational web application for visualizing and comparing search
 ## Troubleshooting
 
 ### Algorithm Not Running
+
 - Ensure both start and goal are set (green S and red G visible)
 - Grid must have at least one path or algorithm may take time
 
 ### Animation Stuttering
+
 - Reduce grid size for smoother performance
 - Lower animation speed
 - Close other browser tabs
 
 ### Graph Nodes Overlap
+
 - Drag nodes apart to reposition
 - Use randomize to auto-spread nodes
 
 ## Future Enhancements
-- Advanced algorithms (Hill Climbing, Beam Search, IDA*)
+
+- Advanced algorithms (Hill Climbing, Beam Search, IDA\*)
 - 8-Puzzle problem type
 - Maze generation algorithms
 - PDF export with visualizations
