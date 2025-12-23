@@ -464,127 +464,165 @@ export default function Home() {
 
   const isDisabled = isPlaying && !isPaused;
 
-  return (
-    <div className="flex flex-col lg:flex-row h-full gap-4 p-4 overflow-hidden" data-testid="home-page">
-      <aside className="w-full lg:w-80 flex-shrink-0 overflow-hidden">
-        <ScrollArea className="h-full pr-4">
-          <div className="space-y-4 pb-4">
-            <AlgorithmSelector
-              selectedAlgorithm={selectedAlgorithm}
-              onSelect={setSelectedAlgorithm}
-              disabled={isDisabled}
-            />
-            
-            <ProblemSettings
-              problemType={problemType}
-              problem={problem}
-              onProblemTypeChange={handleProblemTypeChange}
-              onProblemChange={handleProblemChange}
-              onRandomize={randomizeProblem}
-              onClear={clearProblem}
-              disabled={isDisabled}
-            />
-            
-            <ToolPalette
-              problemType={problemType}
+  // Resizable Splitter State
+const [leftWidth, setLeftWidth] = useState(50); // النسبة المئوية للجانب الأيسر
+const containerRef = useRef<HTMLDivElement>(null);
+const isDraggingRef = useRef(false);
+
+const handleMouseMove = (e: MouseEvent) => {
+  if (!isDraggingRef.current || !containerRef.current) return;
+  const rect = containerRef.current.getBoundingClientRect();
+  const newWidth = ((e.clientX - rect.left) / rect.width) * 100;
+  if (newWidth > 10 && newWidth < 90) setLeftWidth(newWidth);
+};
+
+const handleMouseUp = () => {
+  isDraggingRef.current = false;
+  document.removeEventListener("mousemove", handleMouseMove);
+  document.removeEventListener("mouseup", handleMouseUp);
+};
+
+const handleMouseDown = () => {
+  isDraggingRef.current = true;
+  document.addEventListener("mousemove", handleMouseMove);
+  document.addEventListener("mouseup", handleMouseUp);
+};
+
+
+return (
+  <div className="flex h-screen overflow-hidden" ref={containerRef} data-testid="home-page">
+    
+    {/* LEFT SIDE — Visualization Area */}
+    <div
+      style={{ width: `${leftWidth}%` }}
+      className="overflow-y-scroll p-4 border-r border-gray-300 flex flex-col gap-4"
+    >
+      <Card className="flex-1 border-card-border overflow-hidden min-h-[300px]">
+        <CardContent className="p-0 h-full">
+          {problemType === "grid" ? (
+            <GridCanvas
+              problem={problem as GridProblem}
+              currentStep={currentSearchStep}
               selectedTool={selectedTool}
-              onSelectTool={setSelectedTool}
-              disabled={isDisabled}
+              showCosts={showCosts}
+              onCellClick={handleGridCellClick}
+              onCellDrag={handleGridCellDrag}
             />
-            
-            <PlaybackControls
-              isPlaying={isPlaying}
-              isPaused={isPaused}
-              currentStep={currentStep}
-              totalSteps={searchResult?.steps.length ?? 0}
-              speed={speed}
-              onPlay={handlePlay}
-              onPause={handlePause}
-              onReset={handleReset}
-              onStepForward={handleStepForward}
-              onStepBackward={handleStepBackward}
-              onSpeedChange={setSpeed}
-              onSeek={handleSeek}
-              disabled={isRunning}
+          ) : (
+            <GraphCanvas
+              problem={problem as GraphProblem}
+              currentStep={currentSearchStep}
+              selectedTool={selectedTool}
+              showCosts={showCosts}
+              onNodeClick={handleGraphNodeClick}
+              onCanvasClick={handleGraphCanvasClick}
+              onNodeDrag={handleGraphNodeDrag}
+              onEdgeCreate={handleEdgeCreate}
+              selectedEdgeStart={edgeStartNode}
+              onEdgeStartSelect={setEdgeStartNode}
             />
-            
-            <Card className="border-card-border">
-              <CardContent className="p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="show-costs" className="text-sm flex items-center gap-2">
-                    {showCosts ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
-                    Show Costs
-                  </Label>
-                  <Switch
-                    id="show-costs"
-                    checked={showCosts}
-                    onCheckedChange={setShowCosts}
-                    data-testid="switch-show-costs"
-                  />
-                </div>
-                
-                <Separator />
-                
-                <Button
-                  onClick={runSearch}
-                  disabled={isDisabled || isRunning}
-                  className="w-full"
-                  data-testid="button-run-algorithm"
-                >
-                  <Play className="h-4 w-4 mr-2" />
-                  Run Algorithm
-                </Button>
-                
-                {searchResult && (
-                  <Button
-                    variant="outline"
-                    onClick={addToComparison}
-                    className="w-full"
-                    data-testid="button-add-comparison"
-                  >
-                    Add to Comparison
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </ScrollArea>
-      </aside>
-
-      <main className="flex-1 flex flex-col gap-4 overflow-hidden min-h-0">
-        <Card className="flex-1 border-card-border overflow-hidden min-h-[300px]">
-          <CardContent className="p-0 h-full">
-            {problemType === "grid" ? (
-              <GridCanvas
-                problem={problem as GridProblem}
-                currentStep={currentSearchStep}
-                selectedTool={selectedTool}
-                showCosts={showCosts}
-                onCellClick={handleGridCellClick}
-                onCellDrag={handleGridCellDrag}
-              />
-            ) : (
-              <GraphCanvas
-                problem={problem as GraphProblem}
-                currentStep={currentSearchStep}
-                selectedTool={selectedTool}
-                showCosts={showCosts}
-                onNodeClick={handleGraphNodeClick}
-                onCanvasClick={handleGraphCanvasClick}
-                onNodeDrag={handleGraphNodeDrag}
-                onEdgeCreate={handleEdgeCreate}
-                selectedEdgeStart={edgeStartNode}
-                onEdgeStartSelect={setEdgeStartNode}
-              />
-            )}
-          </CardContent>
-        </Card>
-
-        <div className="flex-shrink-0 space-y-4 overflow-auto pb-4">
-          <MetricsDashboard result={searchResult} isRunning={isRunning} />
-          <ComparisonChart results={comparisonResults} onClear={() => setComparisonResults([])} />
-        </div>
-      </main>
+          )}
+        </CardContent>
+      </Card>
     </div>
-  );
+
+    {/* SPLITTER */}
+    <div
+      onMouseDown={handleMouseDown}
+      className="w-1.5 cursor-col-resize bg-gray-300"
+    />
+
+    {/* RIGHT SIDE — Controls & Steps */}
+    <div
+      style={{ width: `${100 - leftWidth}%` }}
+      className="overflow-y-scroll p-4 flex flex-col gap-4"
+    >
+      <AlgorithmSelector
+        selectedAlgorithm={selectedAlgorithm}
+        onSelect={setSelectedAlgorithm}
+        disabled={isDisabled}
+      />
+
+      <ProblemSettings
+        problemType={problemType}
+        problem={problem}
+        onProblemTypeChange={handleProblemTypeChange}
+        onProblemChange={handleProblemChange}
+        onRandomize={randomizeProblem}
+        onClear={clearProblem}
+        disabled={isDisabled}
+      />
+
+      <ToolPalette
+        problemType={problemType}
+        selectedTool={selectedTool}
+        onSelectTool={setSelectedTool}
+        disabled={isDisabled}
+      />
+
+      <PlaybackControls
+        isPlaying={isPlaying}
+        isPaused={isPaused}
+        currentStep={currentStep}
+        totalSteps={searchResult?.steps.length ?? 0}
+        speed={speed}
+        onPlay={handlePlay}
+        onPause={handlePause}
+        onReset={handleReset}
+        onStepForward={handleStepForward}
+        onStepBackward={handleStepBackward}
+        onSpeedChange={setSpeed}
+        onSeek={handleSeek}
+        disabled={isRunning}
+      />
+
+      <Card className="border-card-border flex-shrink-0">
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="show-costs" className="text-sm flex items-center gap-2">
+              {showCosts ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+              Show Costs
+            </Label>
+            <Switch
+              id="show-costs"
+              checked={showCosts}
+              onCheckedChange={setShowCosts}
+              data-testid="switch-show-costs"
+            />
+          </div>
+
+          <Separator />
+
+          <Button
+            onClick={runSearch}
+            disabled={isDisabled || isRunning}
+            className="w-full"
+            data-testid="button-run-algorithm"
+          >
+            <Play className="h-4 w-4 mr-2" />
+            Run Algorithm
+          </Button>
+
+          {searchResult && (
+            <Button
+              variant="outline"
+              onClick={addToComparison}
+              className="w-full"
+              data-testid="button-add-comparison"
+            >
+              Add to Comparison
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Metrics & Comparison */}
+      <div className="space-y-4 flex-shrink-0">
+        <MetricsDashboard result={searchResult} isRunning={isRunning} />
+        <ComparisonChart results={comparisonResults} onClear={() => setComparisonResults([])} />
+      </div>
+    </div>
+  </div>
+);
+
 }
