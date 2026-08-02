@@ -1,6 +1,54 @@
-node_modules
-dist
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Environment files and local secrets
+.env
+.env.*
+!.env.example
+
+# Build output and generated assets
+dist/
+build/
+server/public/
+.vite/
+.cache/
+.parcel-cache/
+
+# TypeScript and test caches
+*.tsbuildinfo
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating-system files
 .DS_Store
-server/public
-vite.config.ts.*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+._*
+
+# Archives and generated packages
 *.tar.gz
+*.zip
+*.rar
+
+# Replit-specific local configuration
+.replit
+replit.md
+.local/
+.config/

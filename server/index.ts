@@ -89,7 +89,8 @@ app.use((req, res, next) => {
     {
       port,
       host: "0.0.0.0",
-      reusePort: true,
+      // Windows does not support SO_REUSEPORT for this listener.
+      reusePort: process.platform !== "win32",
     },
     () => {
       log(`serving on port ${port}`);
