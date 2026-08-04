@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef, useMemo } from "react";
+import { lazy, Suspense, useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -13,7 +13,9 @@ import { ToolPalette } from "@/components/tool-palette";
 import { GridCanvas } from "@/components/grid-canvas";
 import { GraphCanvas } from "@/components/graph-canvas";
 import { MetricsDashboard } from "@/components/metrics-dashboard";
-import { ComparisonChart } from "@/components/comparison-chart";
+const ComparisonChart = lazy(() =>
+  import("@/components/comparison-chart").then(({ ComparisonChart }) => ({ default: ComparisonChart })),
+);
 import { ProblemSettings } from "@/components/problem-settings";
 import { runAlgorithm } from "@/lib/algorithms";
 import type {
@@ -582,7 +584,11 @@ export default function Home() {
 
         <div className="flex-shrink-0 space-y-4 overflow-auto pb-4">
           <MetricsDashboard result={searchResult} isRunning={isRunning} />
-          <ComparisonChart results={comparisonResults} onClear={() => setComparisonResults([])} />
+          {comparisonResults.length > 0 && (
+            <Suspense fallback={<div className="h-32" aria-busy="true" />}>
+              <ComparisonChart results={comparisonResults} onClear={() => setComparisonResults([])} />
+            </Suspense>
+          )}
         </div>
       </main>
     </div>
