@@ -5,9 +5,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development tsx server/index.ts",
-    "build": "tsx script/build.ts",
+    "build": "vite build",
+    "build:server": "tsx script/build.ts",
     "start": "cross-env NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
+    "verify:algorithms": "tsx script/verify-algorithms.ts",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {

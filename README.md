@@ -76,11 +76,51 @@ npm run dev
 
 ```bash
 npm run check
+npm run verify:algorithms
 npm run build
+```
+
+`npm run build` produces the static Vercel deployment in `dist/`. The production
+build does not require any environment variables because visualizations execute
+entirely in the browser.
+
+The original combined Express build remains available for local API development:
+
+```bash
+npm run build:server
 npm run start
 ```
 
 The production build is written to `dist/`, which is intentionally ignored by Git.
+
+## Deploy to Vercel
+
+1. Push the repository to GitHub, GitLab, or Bitbucket and import it in
+   [Vercel](https://vercel.com/new).
+2. Keep the detected project settings, or set **Build Command** to `npm run build`
+   and **Output Directory** to `dist`.
+3. Do not configure `DATABASE_URL`, `PORT`, or other server-only variables for
+   this static deployment. Vite only exposes variables prefixed with `VITE_` to
+   browser code; never place secrets in one.
+4. If you later host the optional API separately, set `VITE_API_BASE_URL` in the
+   Vercel project environment settings to its public HTTPS origin, without a
+   trailing slash. It is optional and defaults to same-origin requests.
+5. Deploy. `vercel.json` rewrites unknown paths to `index.html`, so refreshing
+   any future client-side route works correctly.
+
+### Cache policy
+
+- Fingerprinted files under `/assets/` are cached for one year with `immutable`.
+  Each new build uses new filenames, so users receive updated assets safely.
+- `index.html` is not cached, ensuring it always references the current release.
+- The favicon is cached for one day.
+
+### Post-deployment verification
+
+After deploying, open the site in a private window and confirm that the favicon,
+light/dark theme, grid and graph modes, playback controls, comparison chart, and
+all eight algorithms work. Run `npm run verify:algorithms` before each release
+for deterministic grid and graph path/cost checks.
 
 ## Database workflow
 
