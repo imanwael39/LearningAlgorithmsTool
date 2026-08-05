@@ -127,7 +127,7 @@ function Header() {
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="search-viz-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="search-viz-theme">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <div className="min-h-screen flex flex-col bg-background">
